@@ -1,4 +1,4 @@
-const {input_approval, list_convertion} = require('./view')
+const {input_approval, list_convertion_left,list_convertion_right} = require('./view')
 const {printTable} = require('console-table-printer')
 
 async function app(state, update, view)
@@ -12,15 +12,31 @@ async function app(state, update, view)
         console.log(title)
         printTable(table)
 
-        const {leftApproval, inputTemperature} = await input_approval(model)
-        const {conv_from, conv_to} = await list_convertion(model)   
-        const newModel = update(model, leftApproval, inputTemperature, conv_from, conv_to)
-        
-        state = {
+        const {leftApproval} = await input_approval(model)
+
+        if (leftApproval == true)
+        {
+            const {leftValue,leftUnit,rightUnit} = await list_convertion_left(model)
+            const newModel = update(model, leftApproval, leftValue, leftUnit, rightUnit)
+
+            state = {
             ...state,
             model: newModel,
             currentView: view(newModel)
+            }
         }
+        else
+        {
+            const {rightValue,rightUnit,leftUnit} = await list_convertion_right(model) 
+            const newModel = update(model, leftApproval, rightValue, rightUnit, leftUnit) 
+            
+            state = {
+            ...state,
+            model: newModel,
+            currentView: view(newModel)
+            }
+        }
+   
     }  
 }
 

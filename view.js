@@ -16,6 +16,7 @@ function getTitle()
     )
 }
 
+
 function getTable(model)
 {
     const {leftValue} = model
@@ -33,13 +34,11 @@ function getTable(model)
     ]
 }
 
+
 function input_approval(model)
 {
     const {leftApproval} = model
     const message1 = 'Left temperature is source? '
-
-    const {inputTemperature} = model
-    const message2 = 'Temperature value to convert?'
 
     return inquirer.prompt([
         {
@@ -58,51 +57,77 @@ function input_approval(model)
                    return 'it has to be a real answer'
                 }
             }
-        },
-        {
-            name: 'inputTemperature',
-            type : 'int',
-            message: message2,
-            default: inputTemperature,
-            validate: function(value)
-            {
-                if(value >= 1)
-                {
-                    return true
-                }
-                else
-                {
-                   return false 
-                }
-            }    
         }
     ])
 }
 
-function list_convertion(model)
+
+function list_convertion_right(model)
 {
-    const {conv_from} = model
+    const {rightValue} = model
+    const message2 = 'Temperature value to convert?'
+
+    const {rightUnit} = model
     const message3 = 'From?'
-    const {conv_to} = model
+
+    const {leftUnit} = model
     const message4 = 'To?'
     
-    return inquirer.prompt([
+    return inquirer.prompt([{
+            name: 'rightValue',
+            type : 'int',
+            message: message2,
+            default: rightValue,
+        },   
         {
-            name: 'conv_from',
+            name: 'rightUnit',
             type : 'list',
             message: message3,
-            default: conv_from,
+            default: rightUnit,
             choices: ['Celsius','Fahrenheit','Kelvin']
         },
-        {   name: 'conv_to',
+        {   name: 'leftUnit',
             type : 'list',
             message: message4,
-            default: conv_to,
+            default: leftUnit,
             choices: ['Celsius','Fahrenheit','Kelvin']
-        }
-            
+        }         
     ])
 }
+
+function list_convertion_left(model)
+{
+    const {leftValue} = model
+    const message2 = 'Temperature value to convert?'
+
+    const {leftUnit} = model
+    const message3 = 'From?'
+
+    const {rightUnit} = model
+    const message4 = 'To?'
+    
+    return inquirer.prompt([{
+            name: 'leftValue',
+            type : 'int',
+            message: message2,
+            default: leftValue,
+        },   
+        {
+            name: 'leftUnit',
+            type : 'list',
+            message: message3,
+            default: leftUnit,
+            choices: ['Celsius','Fahrenheit','Kelvin']
+        },
+        {   name: 'rightUnit',
+            type : 'list',
+            message: message4,
+            default: rightUnit,
+            choices: ['Celsius','Fahrenheit','Kelvin']
+        }         
+    ])
+}
+
 
 
 function view(model)
@@ -117,5 +142,6 @@ module.exports =
 {
     view,
     input_approval,
-    list_convertion,
+    list_convertion_right,
+    list_convertion_left
 }

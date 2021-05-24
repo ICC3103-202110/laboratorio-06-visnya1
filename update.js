@@ -46,46 +46,37 @@ function temperature_convertor(temperature, conv_from, conv_to)
         }
     }    
 }
+                                //(model,temperatura,conv_from,conv_to)
 
-
-function update(model, leftApproval, inputTemperature, conv_from, conv_to)
+function update(model, leftApproval, initialTemperature, conv_from, conv_to)
 { 
-    const newTemperature = temperature_convertor(inputTemperature, conv_from, conv_to) 
+    const finalTemperature = temperature_convertor(initialTemperature, conv_from, conv_to) 
     
-    if (leftApproval == true)
+    if (leftApproval == true) 
     {
         return{
         ...model,
-        inputTemperature: inputTemperature,
         leftApproval: leftApproval,
-        conv_from: conv_from,
-        conv_to: conv_to,
-        leftValue: inputTemperature,
+        leftValue: initialTemperature,
         leftUnit: conv_from,
-        rightValue: newTemperature,
-        rightUnit:conv_to 
+        rightValue: finalTemperature,
+        rightUnit: conv_to, 
         }
     }
     else
     {
         return{
         ...model,
-        
-        inputTemperature: inputTemperature,
         leftApproval: leftApproval,
-        conv_from: conv_from,
-        conv_to: conv_to,
-        
-        rightValue: inputTemperature,
-        rightUnit: conv_from,
-        leftValue: newTemperature,
-        leftUnit: conv_to
+        leftValue: finalTemperature,
+        leftUnit: conv_to,
+        rightValue: initialTemperature,
+        rightUnit: conv_from, 
         }
     }
-
 }
 
- module.exports = 
+module.exports = 
 {
     update
 }
