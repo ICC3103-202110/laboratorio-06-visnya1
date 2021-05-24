@@ -1,6 +1,5 @@
-const {input_approval} = require('./view')
+const {input_approval, list_convertion} = require('./view')
 const {printTable} = require('console-table-printer')
-
 
 async function app(state, update, view)
 {
@@ -14,18 +13,18 @@ async function app(state, update, view)
         printTable(table)
 
         const {leftApproval, inputTemperature} = await input_approval(model)
-        //const newModel = update(billAmount, percentage, model)
-    
+        const {conv_from, conv_to} = await list_convertion(model)   
+        const newModel = update(model, leftApproval, inputTemperature, conv_from, conv_to)
+        
         state = {
             ...state,
             model: newModel,
             currentView: view(newModel)
         }
-    }   
+    }  
 }
 
 module.exports = 
 {
     app
 }
-

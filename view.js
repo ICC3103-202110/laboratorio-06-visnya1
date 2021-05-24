@@ -41,7 +41,8 @@ function input_approval(model)
     const {inputTemperature} = model
     const message2 = 'Temperature value to convert?'
 
-    return inquirer.prompt([{
+    return inquirer.prompt([
+        {
             name: 'leftApproval',
             type : 'confirm',
             message: message1,
@@ -76,7 +77,31 @@ function input_approval(model)
             }    
         }
     ])
+}
 
+function list_convertion(model)
+{
+    const {conv_from} = model
+    const message3 = 'From?'
+    const {conv_to} = model
+    const message4 = 'To?'
+    
+    return inquirer.prompt([
+        {
+            name: 'conv_from',
+            type : 'list',
+            message: message3,
+            default: conv_from,
+            choices: ['Celsius','Fahrenheit','Kelvin']
+        },
+        {   name: 'conv_to',
+            type : 'list',
+            message: message4,
+            default: conv_to,
+            choices: ['Celsius','Fahrenheit','Kelvin']
+        }
+            
+    ])
 }
 
 
@@ -92,4 +117,5 @@ module.exports =
 {
     view,
     input_approval,
+    list_convertion,
 }

@@ -1,5 +1,5 @@
 const {initModel} = require('./model')
-//const {update} = require('./update')
+const {update} = require('./update')
 const {view} = require('./view')
 const {app} = require('./app')
 
@@ -9,4 +9,4 @@ const state =
     currentView: view(initModel)
 }
 
-app(state, true, view)
+app(state, update, view)
